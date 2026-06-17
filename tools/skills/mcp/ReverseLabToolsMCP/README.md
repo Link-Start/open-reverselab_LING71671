@@ -7,7 +7,7 @@
 ## 安装
 
 ```bash
-git clone https://github.com/your-org/ReverseLabToolsMCP.git tools/skills/mcp/ReverseLabToolsMCP
+git clone <reverselab-tools-mcp-repo-url> tools/skills/mcp/ReverseLabToolsMCP
 cd tools/skills/mcp/ReverseLabToolsMCP
 uv sync
 ```

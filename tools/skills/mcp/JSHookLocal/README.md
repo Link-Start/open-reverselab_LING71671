@@ -5,7 +5,7 @@
 ## 安装
 
 ```bash
-git clone https://github.com/your-org/JSHookLocal.git tools/skills/mcp/JSHookLocal
+git clone <jshook-repo-url> tools/skills/mcp/JSHookLocal
 cd tools/skills/mcp/JSHookLocal
 npm install
 npm run build

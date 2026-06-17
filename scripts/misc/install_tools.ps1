@@ -21,7 +21,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$root = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $PSScriptRoot))
+$root = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $toolsDir = Join-Path $root "tools"
 $downloadsDir = Join-Path $toolsDir "common\downloads"
 

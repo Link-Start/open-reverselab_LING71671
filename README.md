@@ -21,7 +21,7 @@
 
 | Directory | Role |
 |---|---|
-| [samples](samples/) | 原始样本、隔离区、unpacked payload；按领域放入 `android/windows/ctf-website/misc` |
+| [samples](samples/) | 原始样本、隔离区、unpacked payload：`_quarantine/` `_shared/` `android/` `windows/` `ctf-website/` `misc/` `unpacked/` |
 | [projects](projects/) | Ghidra、apktool、调试器、CTF 项目文件 |
 | [exports](exports/) | 工具导出、triage、IOC、YARA/Sigma、Procmon、unpack 结果 |
 | [patches](patches/) | patched binary/APK、补丁实验 |

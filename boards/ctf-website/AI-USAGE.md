@@ -12,4 +12,4 @@
 ## 工具路径
 
 - 工具安装状态查看：`tools/ctf-website/installed-tools.md`
-- 工具 checklist：运行 `python scripts/ctf-website/ctf_toolcheck.py`
+- 工具 checklist：运行 `python scripts/misc/ai_toolcheck.py` 或 `.\scripts\ctf-website\ctf_toolcheck.ps1`

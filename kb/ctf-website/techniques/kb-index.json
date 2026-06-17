@@ -1,0 +1,177 @@
+[
+  {
+    "category": "01-recon",
+    "file": "01-recon/recon-routing.md",
+    "title": "Recon 路由策略",
+    "keywords": ["recon", "scan", "nmap", "dirsearch", "ffuf", "fingerprint", "version"],
+    "description": "端口扫描、目录爆破、指纹识别的最佳实践和工具链"
+  },
+  {
+    "category": "01-recon",
+    "file": "01-recon/version-fingerprinting.md",
+    "title": "版本指纹识别",
+    "keywords": ["fingerprint", "version", "cms", "framework", "header", "cookie"],
+    "description": "从HTTP头、Cookie、错误页、JS文件中提取产品版本信息"
+  },
+  {
+    "category": "02-auth",
+    "file": "02-auth/jwt/00-overview.md",
+    "title": "JWT 攻击总览",
+    "keywords": ["jwt", "token", "auth", "bearer", "authorization"],
+    "description": "JWT 九大攻击技术：alg:none、算法混淆、弱密钥爆破、kid注入等"
+  },
+  {
+    "category": "02-auth",
+    "file": "02-auth/oauth-sso.md",
+    "title": "OAuth / SSO 攻击",
+    "keywords": ["oauth", "sso", "openid", "saml", "redirect_uri"],
+    "description": "OAuth2.0流程中的常见漏洞：redirect_uri绕过、state缺失、scope提升"
+  },
+  {
+    "category": "02-auth",
+    "file": "02-auth/saml-attacks.md",
+    "title": "SAML 攻击",
+    "keywords": ["saml", "xml", "signature", "assertion"],
+    "description": "SAML签名绕过、XML签名包装(XSW)、断言重放"
+  },
+  {
+    "category": "03-injection",
+    "file": "03-injection/sqli-nosqli.md",
+    "title": "SQLi / NoSQLi",
+    "keywords": ["sqli", "nosqli", "injection", "sqlmap", "mongodb"],
+    "description": "关系型和非关系型数据库注入技术，含盲注、时间注入、二次注入"
+  },
+  {
+    "category": "03-injection",
+    "file": "03-injection/ssti.md",
+    "title": "SSTI 模板注入",
+    "keywords": ["ssti", "template", "jinja2", "twig", "freemarker", "tplmap"],
+    "description": "服务端模板注入检测与利用，覆盖Jinja2/Twig/Freemarker/Velocity等引擎"
+  },
+  {
+    "category": "03-injection",
+    "file": "03-injection/graphql.md",
+    "title": "GraphQL 注入",
+    "keywords": ["graphql", "introspection", "query", "mutation"],
+    "description": "GraphQL introspection利用、查询深度攻击、批量查询绕过"
+  },
+  {
+    "category": "03-injection",
+    "file": "03-injection/prototype-pollution.md",
+    "title": "原型链污染",
+    "keywords": ["prototype", "pollution", "__proto__", "constructor"],
+    "description": "JavaScript原型链污染检测和利用，常见gadget链"
+  },
+  {
+    "category": "04-ssrf",
+    "file": "04-ssrf/ssrf.md",
+    "title": "SSRF 攻击",
+    "keywords": ["ssrf", "internal", "metadata", "169.254", "localhost"],
+    "description": "SSRF探测内网、云metadata、file/gopher协议利用"
+  },
+  {
+    "category": "04-ssrf",
+    "file": "04-ssrf/open-redirect.md",
+    "title": "Open Redirect → SSRF",
+    "keywords": ["redirect", "open redirect", "url", "bypass"],
+    "description": "通过Open Redirect绕过SSRF白名单限制"
+  },
+  {
+    "category": "05-deserialization",
+    "file": "05-deserialization/deserialization.md",
+    "title": "反序列化攻击",
+    "keywords": ["deserialize", "unserialize", "pickle", "ysoserial", "gadget"],
+    "description": "PHP/Java/Python/Node.js反序列化漏洞，gadget链构造"
+  },
+  {
+    "category": "06-file-attacks",
+    "file": "06-file-attacks/file-upload-xxe-lfi.md",
+    "title": "文件上传 / XXE / LFI",
+    "keywords": ["upload", "xxe", "lfi", "rfi", "file", "include"],
+    "description": "文件上传绕过、XML外部实体注入、本地/远程文件包含"
+  },
+  {
+    "category": "07-client",
+    "file": "07-client/admin-bot-xss.md",
+    "title": "Admin Bot + XSS",
+    "keywords": ["xss", "bot", "admin", "cookie", "csp", "dom"],
+    "description": "Admin Bot类CTF中的XSS利用：窃取cookie、CSP绕过、DOM clobbering"
+  },
+  {
+    "category": "07-client",
+    "file": "07-client/cors-csrf.md",
+    "title": "CORS / CSRF",
+    "keywords": ["cors", "csrf", "origin", "referer", "token"],
+    "description": "CORS配置错误利用、CSRF token绕过技术"
+  },
+  {
+    "category": "07-client",
+    "file": "07-client/postmessage.md",
+    "title": "PostMessage 攻击",
+    "keywords": ["postmessage", "message", "origin", "iframe"],
+    "description": "跨窗口通信中的origin校验缺陷和消息劫持"
+  },
+  {
+    "category": "08-infra",
+    "file": "08-infra/race-cache-smuggling.md",
+    "title": "Race Condition / Cache / Smuggling",
+    "keywords": ["race", "cache", "smuggling", "turbo intruder", "http2"],
+    "description": "竞态条件、Web缓存中毒/欺骗、HTTP请求走私"
+  },
+  {
+    "category": "09-cve",
+    "file": "09-cve/cve-workflow.md",
+    "title": "CVE 分析工作流",
+    "keywords": ["cve", "nvd", "epss", "kev", "exploit"],
+    "description": "从版本指纹到CVE利用的标准化流程"
+  },
+  {
+    "category": "09-cve",
+    "file": "09-cve/cve-correlation-graph.md",
+    "title": "CVE 关联图谱",
+    "keywords": ["cve", "graph", "correlation", "chain"],
+    "description": "多CVE关联分析：共有前提条件、链式利用路径"
+  },
+  {
+    "category": "09-cve",
+    "file": "09-cve/multi-cve-chain-playbook.md",
+    "title": "多CVE链 Playbook",
+    "keywords": ["cve", "chain", "multi", "combination"],
+    "description": "多个CVE组合利用的实战playbook"
+  },
+  {
+    "category": "10-cloud",
+    "file": "10-cloud/ci-cd-pipeline.md",
+    "title": "CI/CD 攻击",
+    "keywords": ["ci/cd", "github actions", "jenkins", "pipeline"],
+    "description": "CI/CD Pipeline中的权限提升和密钥泄露"
+  },
+  {
+    "category": "10-cloud",
+    "file": "10-cloud/kubernetes-container.md",
+    "title": "Kubernetes / 容器",
+    "keywords": ["kubernetes", "k8s", "docker", "container", "escape"],
+    "description": "K8s RBAC绕过、容器逃逸、服务账户token利用"
+  },
+  {
+    "category": "11-supply-chain",
+    "file": "11-supply-chain/dependency-confusion.md",
+    "title": "依赖混淆攻击",
+    "keywords": ["supply chain", "dependency", "confusion", "npm", "pip", "typosquatting"],
+    "description": "利用私有包名在公共仓库注册进行供应链投毒"
+  },
+  {
+    "category": "12-payment",
+    "file": "12-payment/payment-logic.md",
+    "title": "支付逻辑漏洞",
+    "keywords": ["payment", "logic", "price", "amount", "currency"],
+    "description": "金额篡改、币种切换、负数值、并发购买等支付逻辑绕过"
+  },
+  {
+    "category": "13-signature",
+    "file": "13-signature/00-overview.md",
+    "title": "API 签名攻击总览",
+    "keywords": ["signature", "sign", "hmac", "hash", "api key"],
+    "description": "API签名算法的识别、绕过和利用"
+  }
+]

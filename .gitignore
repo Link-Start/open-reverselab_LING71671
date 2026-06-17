@@ -3,15 +3,13 @@
 .env.*
 !.env.example
 
-# Procmon large binary logs
-exports/windows/procmon/*.pml
-exports/windows/procmon/*.csv
-exports/windows/procmon/*.xml
-
 # Python / Node caches
 __pycache__/
 *.pyc
 node_modules/
+
+# Logs
+logs/*.log
 
 # ── Tools: ignore binaries, keep README.md + .gitkeep ──
 tools/common/**
@@ -61,14 +59,10 @@ exports/**
 *.db
 *.sqlite
 
-# MCP tool caches
+# MCP tool build artifacts (cached by install scripts)
 tools/skills/mcp/JSHookLocal/.cache/
 tools/skills/mcp/JSHookLocal/dist/
-tools/skills/mcp/JSHookLocal/node_modules/
 
-# Python virtual environments
-tools/common/venvs/
-
-# Downloads cache
+# Downloads cache (created by install_tools.ps1)
 tools/common/downloads/
 tools/ctf-website/_downloads/

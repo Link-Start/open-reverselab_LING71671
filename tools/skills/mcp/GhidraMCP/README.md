@@ -5,7 +5,7 @@ Ghidra MCP 桥接服务器，允许 AI 通过 MCP 协议与 Ghidra 交互。
 ## 安装
 
 ```bash
-git clone https://github.com/your-org/GhidraMCP.git tools/skills/mcp/GhidraMCP
+git clone <ghidra-mcp-repo-url> tools/skills/mcp/GhidraMCP
 cd tools/skills/mcp/GhidraMCP
 uv sync
 ```
