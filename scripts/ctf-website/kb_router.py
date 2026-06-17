@@ -3,41 +3,49 @@
 Knowledge Base Router — 按信号搜索相关技术文件。
 
 Usage:
-    python scripts/ctf-website/kb_router.py "sql injection"
     python scripts/ctf-website/kb_router.py "jwt"
+    python scripts/ctf-website/kb_router.py "sql injection"
 """
 
 import sys
 import json
 import os
 
-KB_INDEX = os.path.join(os.path.dirname(__file__), "..", "..", "kb", "ctf-website", "techniques", "kb-index.json")
-TECHNIQUES_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "kb", "ctf-website", "techniques")
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", ".."))
+KB_INDEX = os.path.join(ROOT, "kb", "ctf-website", "techniques", "kb-index.json")
+TECHNIQUES_DIR = os.path.join(ROOT, "kb", "ctf-website", "techniques")
+
+SCORE_SIGNAL = 10
+SCORE_ID = 5
+SCORE_FILE = 3
 
 
 def load_index():
-    """Load kb-index.json and return entries."""
     if not os.path.exists(KB_INDEX):
-        print(f"[!] kb-index.json not found at {KB_INDEX}")
-        print("[!] Run 'python scripts/ctf-website/kb_router.py --build' to create it.")
+        print(f"kb-index.json not found at {KB_INDEX}")
         return []
     with open(KB_INDEX, "r", encoding="utf-8") as f:
-        return json.load(f)
+        data = json.load(f)
+    return data.get("entries", [])
 
 
-def search(query, index):
-    """Simple keyword search over kb-index entries."""
+def search(query, entries):
     query_lower = query.lower()
     results = []
-    for entry in index:
+    for entry in entries:
         score = 0
-        for keyword in entry.get("keywords", []):
-            if keyword.lower() in query_lower:
-                score += 10
-        if query_lower in entry.get("title", "").lower():
-            score += 5
-        if query_lower in entry.get("description", "").lower():
-            score += 3
+        # Match against entry id
+        if query_lower in entry.get("id", "").lower():
+            score += SCORE_ID
+        # Match against signals
+        for sig in entry.get("signals", []):
+            if sig.lower() in query_lower or query_lower in sig.lower():
+                score += SCORE_SIGNAL
+        # Match against file paths
+        for f in entry.get("files", []):
+            if query_lower in f.lower():
+                score += SCORE_FILE
         if score > 0:
             results.append((score, entry))
     results.sort(key=lambda x: x[0], reverse=True)
@@ -50,22 +58,24 @@ def main():
         return
 
     query = sys.argv[1]
-    index = load_index()
-    if not index:
+    entries = load_index()
+    if not entries:
         return
 
-    results = search(query, index)
+    results = search(query, entries)
     if not results:
-        print(f"No matches for: {query}")
+        print(f"\nNo matches for '{query}'.")
         print("Try broader keywords, or check kb/ctf-website/techniques/attack-network.md")
         return
 
     print(f"\nResults for '{query}' ({len(results)} found):\n")
     for i, entry in enumerate(results[:10], 1):
-        path = os.path.join(TECHNIQUES_DIR, entry.get("file", ""))
-        print(f"  {i}. [{entry.get('category', '')}] {entry.get('title', '')}")
-        print(f"     {path}")
-        print(f"     {entry.get('description', '')[:100]}")
+        print(f"  {i}. [{entry.get('id', '')}] priority={entry.get('priority', 0)}")
+        print(f"     Signals: {', '.join(entry.get('signals', [])[:5])}")
+        for f in entry.get("files", []):
+            full = os.path.join(TECHNIQUES_DIR, f)
+            exists = "✓" if os.path.exists(full) else "✗"
+            print(f"     {exists} kb/ctf-website/techniques/{f}")
         print()
 
 
