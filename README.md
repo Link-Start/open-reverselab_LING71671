@@ -1,83 +1,148 @@
 # ReverseLab
 
-开源逆向工程实验环境 —— 面向 Android/Windows/Web CTF 的二进制分析与漏洞研究框架。
+开源逆向工程实验环境 —— 面向 Android / Windows / Web CTF 的二进制分析与漏洞研究框架。目录即约定，AI 友好。
 
-## AI Entry
+## 谁适合用
 
-- 全局 AI 使用说明：[AI-USAGE.md](AI-USAGE.md)
-- Agent 行为约定：[AGENTS.md](AGENTS.md)
-- Board 路由：[boards/README.md](boards/README.md)
-
-## Boards
-
-| Board | 用途 | 入口 |
-|---|---|---|
-| Android | APK、DEX、Frida、repack、签名、移动端行为分析 | [boards/android](boards/android/README.md) |
-| Windows | PE、x64dbg、Ghidra、Procmon、YARA/Sigma、patch/crackme | [boards/windows](boards/windows/README.md) |
-| CTF Website | Web CTF、JS hook、浏览器行为、HTTP/前端 payload 分析 | [boards/ctf-website](boards/ctf-website/README.md) |
-| Misc | MCP、skill、环境、自动化、自测、通用实验 | [boards/misc](boards/misc/README.md) |
-
-## Canonical Layout
-
-| Directory | Role |
-|---|---|
-| [samples](samples/) | 原始样本、隔离区、unpacked payload：`_quarantine/` `_shared/` `android/` `windows/` `ctf-website/` `misc/` `unpacked/` |
-| [projects](projects/) | Ghidra、apktool、调试器、CTF 项目文件 |
-| [exports](exports/) | 工具导出、triage、IOC、YARA/Sigma、Procmon、unpack 结果 |
-| [patches](patches/) | patched binary/APK、补丁实验 |
-| [notes](notes/) | 手工分析笔记和过程证据 |
-| [reports](reports/) | 自动化报告、整理记录、最终交付 |
-| [scripts](scripts/) | Frida、Python replay、Ghidra script、debug/procmon 脚本 |
-| [tools](tools/) | 工具链，已按 Android/Windows/CTF/Common/Skills 拆分 |
-| [cases](cases/) | 跨板块 case 索引层，连接样本、项目、笔记、报告、补丁和脚本 |
-| [templates](templates/) | 分析笔记、case、报告、YARA/Sigma 模板 |
-| [kb](kb/) | 可复用知识库；Web CTF 技巧、checklists、payloads |
-
-每个主目录应有本地 `README.md` 或 `AI-USAGE.md`。
-
-## Placement Rules
-
-- 新样本先进 `samples/<board>/`，恶意或不确定样本先进 `samples/_quarantine/`。
-- 自动化/工具输出进 `exports/<board>/` 或 `exports/_shared/`。
-- 修改后的二进制、APK、patch 结果进 `patches/<board>/`。
-- 可复用脚本进 `scripts/<board>/`；跨领域脚本进 `scripts/_shared/`。
-- 过程笔记进 `notes/<board>/`，交付型结论进 `reports/<board>/`。
-- MCP、skill、agent/workflow 相关内容归 `tools/skills/` 和 `boards/misc/`。
-- 新 case 从 `cases/` 开始建索引，不复制大文件，只链接各板块产物。
-
-## 工具安装
-
-一键安装所有工具：
-
-```powershell
-.\scripts\misc\install_tools.ps1 -All
-```
-
-支持按类别安装：
-
-```powershell
-.\scripts\misc\install_tools.ps1 -CTF        # Web CTF 工具 (sqlmap, dirsearch, jwt_tool...)
-.\scripts\misc\install_tools.ps1 -Android    # Android 工具 (apktool, jadx...)
-.\scripts\misc\install_tools.ps1 -Windows    # Windows 工具 (Cutter, PE-bear, DiE...)
-.\scripts\misc\install_tools.ps1 -GoTools    # Go 工具 (ffuf, nuclei, httpx...)
-.\scripts\misc\install_tools.ps1 -Common     # 通用工具 (Ghidra, Maven)
-```
-
-每个工具目录下也有独立的 `README.md`，包含手动下载链接和安装说明。
-
-## 前置依赖
-
-本项目设计为与 [codex-session-patcher](https://github.com/LING71671/codex-session-patcher) 配合使用。clone 后请先配置 codex-session-patcher，以确保 AI Agent 能正确路由到各板块的 `AI-USAGE.md` 和工具链。
+- **Web CTF 选手** — 50+ 篇可运行的技术文档 + 一键安装全工具链
+- **二进制分析师** — PE/APK 分析模板、Ghidra 集成、Frida 脚本
+- **AI Agent 用户** — 搭配 [codex-session-patcher](https://github.com/LING71671/codex-session-patcher) 实现 Agent 自动路由
 
 ## 快速开始
 
 ```powershell
-# 安装 codex-session-patcher（一次性）
-# 详见: https://github.com/LING71671/codex-session-patcher
+# 1. 装工具（按需选一个）
+.\scripts\misc\install_tools.ps1 -CTF         # 只装 Web CTF 工具
+.\scripts\misc\install_tools.ps1 -All         # 全部安装
 
-# 查看工具安装状态
+# 2. 检查安装状态
 python scripts/misc/ai_toolcheck.py
 
-# 查看知识库索引
+# 3. 查知识库（按信号搜索攻击技术）
+python scripts/ctf-website/kb_router.py "jwt"
 python scripts/ctf-website/kb_router.py "sql injection"
 ```
+
+## AI Entry
+
+搭配 [codex-session-patcher](https://github.com/LING71671/codex-session-patcher) 后，AI 会自动读取：
+
+| 文件 | 作用 |
+|---|---|
+| [AI-USAGE.md](AI-USAGE.md) | 全局任务路由表 + 跨板块联动规则 |
+| [AGENTS.md](AGENTS.md) | Agent 行为约定 + 默认分析流程 |
+| [boards/README.md](boards/README.md) | Board 索引（Android / Windows / CTF / Misc） |
+
+## Boards
+
+| Board | 领域 | 入口 |
+|---|---|---|
+| CTF Website | Web CTF、JS hook、HTTP payload、CVE 链 | [boards/ctf-website](boards/ctf-website/README.md) |
+| Android | APK、DEX、Frida、重打包、签名 | [boards/android](boards/android/README.md) |
+| Windows | PE、x64dbg、Ghidra、Procmon、YARA/Sigma | [boards/windows](boards/windows/README.md) |
+| Misc | MCP、skill、自动化、环境自检 | [boards/misc](boards/misc/README.md) |
+
+## 知识库（kb/）
+
+13 个技术分类，60+ 文件，每篇包含可运行的伪代码：
+
+| 编号 | 分类 | 文件数 | 示例 |
+|---|---|---|---|
+| 01 | Recon | 2 | 端口扫描、目录爆破、版本指纹 |
+| 02 | Auth | 14 | JWT 九大攻击链、OAuth/SSO/SAML/LDAP |
+| 03 | Injection | 7 | SQLi、SSTI、GraphQL、Prototype Pollution |
+| 04 | SSRF | 2 | SSRF 内网探测、Open Redirect 链 |
+| 05 | Deserialization | 1 | PHP/Java/Python 反序列化 |
+| 06 | File Attacks | 1 | 文件上传 / XXE / LFI |
+| 07 | Client | 6 | XSS、CORS/CSRF、PostMessage、WebSocket |
+| 08 | Infra | 3 | HTTP Smuggling、Cache Poisoning、Race Condition |
+| 09 | CVE | 3 | CVE 关联图谱、多 CVE 链 playbook |
+| 10 | Cloud | 3 | CI/CD、K8s、Serverless |
+| 11 | Supply Chain | 1 | 依赖混淆 |
+| 12 | Payment | 6 | 支付逻辑绕过、回调异步利用、数字商品 |
+| 13 | Signature | 7 | API 签名攻击全链 |
+
+```powershell
+# 入口
+python scripts/ctf-website/kb_router.py "<信号>"
+```
+
+## 目录结构
+
+| 目录 | 职责 |
+|---|---|
+| [samples/](samples/) | 原始样本 + `_quarantine/` 隔离区 + `unpacked/` 解包产物 |
+| [projects/](projects/) | Ghidra、apktool、调试器项目文件 |
+| [exports/](exports/) | 工具导出、triage、IOC、YARA/Sigma、Procmon |
+| [patches/](patches/) | patched binary / APK、补丁实验 |
+| [notes/](notes/) | 手工分析笔记 |
+| [reports/](reports/) | 最终报告、自动化报告 |
+| [scripts/](scripts/) | Frida、Python、Ghidra Java、PowerShell 脚本 |
+| [tools/](tools/) | 工具链（按 Android / Windows / CTF / Common / Skills 拆分） |
+| [cases/](cases/) | 跨板块 case 索引，轻量链接 |
+| [templates/](templates/) | 笔记、case、报告、YARA/Sigma 模板 |
+| [kb/](kb/) | 可复用知识库 |
+
+## 工具安装
+
+按需装，不用全下：
+
+```powershell
+.\scripts\misc\install_tools.ps1 -CTF          # sqlmap, dirsearch, jwt_tool, nmap, ffuf, nuclei...
+.\scripts\misc\install_tools.ps1 -Android      # apktool, jadx, uber-apk-signer, frida
+.\scripts\misc\install_tools.ps1 -Windows      # Cutter, PE-bear, DiE, HxD, Procmon
+.\scripts\misc\install_tools.ps1 -GoTools      # ffuf, gobuster, httpx, nuclei, katana
+.\scripts\misc\install_tools.ps1 -Common       # Ghidra, Apache Maven
+.\scripts\misc\install_tools.ps1 -All          # 全装
+```
+
+每个工具目录内也有独立的 `README.md`，包含手动下载链接。
+
+## 常用命令
+
+```powershell
+# 环境自检
+python scripts/misc/lab_healthcheck.py
+
+# 工具可用性检查
+python scripts/misc/ai_toolcheck.py
+
+# CTF 工具巡检
+.\scripts\ctf-website\ctf_toolcheck.ps1
+
+# 建新 CTF 题目
+.\scripts\ctf-website\ctf_new_challenge.ps1 -Name <name> -Url <url>
+
+# CTF 环境验证（需要 codex-session-patcher）
+.\scripts\misc\verify_codex_ctf_profile.ps1
+
+# CVE 流水线冒烟测试
+.\scripts\ctf-website\smoke_cve_pipeline.ps1
+```
+
+## 分析模板
+
+| 模板 | 用途 |
+|---|---|
+| [sample-analysis.md](templates/notes/sample-analysis.md) | 通用二进制分析笔记（13 节标准结构） |
+| [android-apk-analysis.md](templates/notes/android-apk-analysis.md) | APK 专项 |
+| [windows-pe-analysis.md](templates/notes/windows-pe-analysis.md) | PE 专项 |
+| [ctf-website-writeup.md](templates/notes/ctf-website-writeup.md) | Web CTF Writeup |
+| [final-report.md](templates/reports/final-report.md) | 正式分析报告 |
+| [patch-report.md](templates/reports/patch-report.md) | Patch 报告 |
+| [yara-rule.yar](templates/rules/yara-rule.yar) | YARA 规则模板 |
+| [sigma-rule.yml](templates/rules/sigma-rule.yml) | Sigma 规则模板 |
+
+## Placement Rules
+
+- 样本 → `samples/<board>/`，恶意/未确认 → `samples/_quarantine/`
+- 工具输出 → `exports/<board>/`，跨领域 → `exports/_shared/`
+- 修改产物 → `patches/<board>/`
+- 脚本 → `scripts/<board>/`，跨领域 → `scripts/_shared/`
+- 笔记 → `notes/<board>/`，报告 → `reports/<board>/`
+- Case 只建索引，不复制大文件
+
+## 依赖
+
+- [codex-session-patcher](https://github.com/LING71671/codex-session-patcher) — AI Agent 项目级配置
+- Git、Python 3、Java（部分工具需要）
