@@ -97,11 +97,11 @@ python scripts/misc/lab_healthcheck.py
 
 ## 知识库（kb/）
 
-### Web CTF — 13 个技术分类，60+ 文件，每篇包含可运行的伪代码
+### Web CTF — 21 个技术分类，75 篇，每篇含可运行代码 + MCP 工具映射
 
 | 编号 | 分类 | 文件数 | 示例 |
 |---|---|---|---|
-| 01 | Recon | 2 | 端口扫描、目录爆破、版本指纹 |
+| 01 | Recon | 4 | 端口扫描、目录爆破、版本指纹、Cloudflare 绕过、CAPTCHA 绕过 |
 | 02 | Auth | 14 | JWT 九大攻击链、OAuth/SSO/SAML/LDAP |
 | 03 | Injection | 7 | SQLi、SSTI、GraphQL、Prototype Pollution |
 | 04 | SSRF | 2 | SSRF 内网探测、Open Redirect 链 |
@@ -112,20 +112,25 @@ python scripts/misc/lab_healthcheck.py
 | 09 | CVE | 3 | CVE 关联图谱、多 CVE 链 playbook |
 | 10 | Cloud | 3 | CI/CD、K8s、Serverless |
 | 11 | Supply Chain | 1 | 依赖混淆 |
-| 12 | Payment | 6 | 支付逻辑绕过、回调异步利用、数字商品 |
+| 12 | Payment | 7 | 支付绕过、回调异步、数字商品、退信+IDOR 窃取卡密 |
 | 13 | Signature | 7 | API 签名攻击全链 |
+| 14 | IDOR | 2 | 水平/垂直越权、功能级访问控制绕过 |
+| 15 | Mass Assignment | 2 | 批量赋值、参数篡改、价格操纵、竞态 |
+| 16 | Rate Limit | 2 | 速率限制绕过、凭证喷洒、MFA 疲劳攻击 |
+| 17 | API Attacks | 2 | Swagger/GraphQL/SourceMap API 发现、密钥泄露利用 |
+| 18 | CSP/CORS 进阶 | 2 | CSP 绕过技术栈、XS-Leaks 浏览器侧信道 |
+| 19 | DNS/Email | 2 | 子域名接管、SPF/DKIM/DMARC 邮件伪造 |
+| 20 | OAuth 深度 | 2 | OAuth 2.0 攻击全链、Session 固定与 SSO 劫持 |
+| 21 | Mobile Bridge | 2 | WebView 攻击、Cordova/RN/Flutter/Electron 攻击面 |
 
-```powershell
-# 入口
-python scripts/ctf-website/kb_router.py "<信号>"
-```
+MCP 入口：`kb_router(query="信号", board="ctf-website")`
 
-### APK Reverse — 17 篇技术文件，8 个分类，Frida 可运行代码
+### APK Reverse — 17 篇，8 个分类，Frida 可运行代码
 
 | 编号 | 分类 | 文件数 | 示例 |
 |---|---|---|---|
 | 01 | DEX/Java | 1 | Smali 注入 |
-| 02 | Native | 5 | IL2CPP offset 发现、UE4 offset 狩猎、指针链模式、内核 procfs 驱动、虚拟/物理内存 |
+| 02 | Native | 5 | IL2CPP offset 发现、UE4 offset 狩猎、指针链模式 |
 | 03 | Manifest | 1 | 入口点追踪 |
 | 04 | Crypto | 2 | 游戏加密模式、RC4 自定义加密 |
 | 05 | Network | 2 | 游戏协议 Hook、许可证验证绕过 |
@@ -133,22 +138,37 @@ python scripts/ctf-website/kb_router.py "<信号>"
 | 07 | Packer | 2 | 混淆检测、自解压 payload |
 | 08 | Patch/Repack | 1 | SO 注入重打包 |
 
-详见 [kb/apk-reverse/README.md](kb/apk-reverse/README.md)
+MCP 入口：`kb_router(query="信号", board="apk-reverse")`
 
-### PE Reverse — 9 篇技术文件，5 个分类有内容，C++/Frida 可运行代码
+### PE Reverse — 18 篇，8 个分类，C++/Frida 可运行代码
 
 | 编号 | 分类 | 文件数 | 示例 |
 |---|---|---|---|
 | 01 | Triage | 1 | AOB 特征码扫描 |
 | 02 | PE Structure | 1 | PE 头解析 |
-| 03 | Static Analysis | 2 | 结构体重建、反汇编/JIT 汇编 |
-| 04 | Dynamic Analysis | 3 | DLL 注入、Trampoline 劫持、外部内存读写 |
+| 03 | Static Analysis | 4 | 结构体重建、反汇编/JIT 汇编、x64dbg 断点策略、ReClass 结构体重建 |
+| 04 | Dynamic Analysis | 8 | DLL 注入、Trampoline 劫持、外部内存读写、Naked Hook、反调试绕过、手动映射、Direct Syscall、Procmon 行为监控 |
 | 05 | Crypto/Unpack | 1 | PE 脱壳/dump |
-| 06 | IOC Extraction | — | 待补充 |
-| 07 | YARA/Sigma | — | 待补充 |
-| 08 | Patch | 1 | 代码 Patch |
+| 06 | IOC Extraction | 1 | IOC 提取技巧 |
+| 07 | YARA/Sigma | 1 | YARA 规则编写（逆向视角） |
+| 08 | Patch | 1 | 代码 Patch 与字节修改 |
 
-详见 [kb/pe-reverse/techniques/README.md](kb/pe-reverse/techniques/README.md)
+MCP 入口：`kb_router(query="信号", board="pe-reverse")`
+
+### General — 12 篇，4 个分类有内容，跨平台通用技术
+
+| 编号 | 分类 | 文件数 | 示例 |
+|---|---|---|---|
+| 01 | Crypto | 3 | 算法盲识别（S-box 指纹/熵分析）、自定义混淆还原（angr/Z3/Frida）、PRNG 破解（LCG/MT/V8） |
+| 02 | Protocol | 2 | 未知协议逆向（字段推断/CRC/状态机）、Protobuf/FlatBuffers 无 schema 还原 |
+| 03 | Cheating | 5 | 内存 Hack、封包拦截、ESP/透视渲染、反作弊绕过（EAC/BE/Vanguard）、加速/时间操控 |
+| 04 | Methodology | 2 | 30 分钟分析清单、按信号选工具决策树 |
+| 05 | Firmware | — | 待补充 |
+| 06 | Hardware | — | 待补充 |
+| 07 | Radio | — | 待补充 |
+| 08 | AI Security | — | 待补充 |
+
+MCP 入口：`kb_router(query="信号", board="general")`
 
 ## 目录结构
 
