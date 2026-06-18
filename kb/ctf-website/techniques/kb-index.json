@@ -387,6 +387,22 @@
       "priority": 10
     },
     {
+      "id": "cloudflare-bypass",
+      "signals": ["cloudflare", "cf-ray", "cf-cache-status", "cdn bypass", "origin ip", "源站", "real ip", "true ip", "waf bypass", "cdn", "cloudfront", "akamai", "fastly", "imperva", "dns history", "securitytrails", "censys", "shodan", "crt.sh", "certificate transparency", "ssl search"],
+      "files": [
+        "01-recon/cloudflare-bypass.md"
+      ],
+      "priority": 10
+    },
+    {
+      "id": "captcha-bypass",
+      "signals": ["captcha", "验证码", "recaptcha", "hcaptcha", "turnstile", "geetest", "极验", "滑块", "slider", "ddddocr", "2captcha", "anticaptcha", "capsolver", "ocr", "token reuse", "automation", "playwright", "stealth", "sms verify", "验证码绕过"],
+      "files": [
+        "01-recon/captcha-bypass.md"
+      ],
+      "priority": 10
+    },
+    {
       "id": "attack-network",
       "signals": ["attack network", "attack graph", "attack chain", "attack path", "entry point", "多入口", "攻击路径", "分叉", "全网图"],
       "files": [
