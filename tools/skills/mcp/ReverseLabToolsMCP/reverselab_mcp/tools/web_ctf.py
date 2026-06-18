@@ -19,6 +19,7 @@ KB_ROOTS = {
     "ctf-website": REVERSE_ROOT / "kb" / "ctf-website" / "techniques",
     "apk-reverse": REVERSE_ROOT / "kb" / "apk-reverse" / "techniques",
     "pe-reverse": REVERSE_ROOT / "kb" / "pe-reverse" / "techniques",
+    "general": REVERSE_ROOT / "kb" / "general" / "techniques",
 }
 
 KB_INDEX = REVERSE_ROOT / "kb" / "ctf-website" / "techniques" / "kb-index.json"

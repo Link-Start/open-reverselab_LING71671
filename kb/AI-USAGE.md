@@ -13,6 +13,7 @@
 - Web CTF：`kb/ctf-website/README.md`
 - APK 逆向：`kb/apk-reverse/README.md`
 - PE 逆向：`kb/pe-reverse/README.md`
+- 通用安全：`kb/general/README.md`
 - CVE 关联网：`kb/ctf-website/techniques/09-cve/cve-correlation-graph.md`
 
 ## AI 联动

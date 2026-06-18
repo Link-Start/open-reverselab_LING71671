@@ -1,0 +1,48 @@
+{
+  "version": "1.0",
+  "purpose": "Signal → technique file mapping for general security/reversing knowledge base",
+  "entries": [
+    {
+      "id": "crypto",
+      "signals": ["aes", "des", "rsa", "ecc", "elliptic curve", "cipher", "decrypt", "encrypt", "hash", "md5", "sha1", "sha256", "hmac", "pbkdf", "bcrypt", "argon2", "xor", "side channel", "timing attack", "dpake", "diffie-hellman", "key exchange", "custom crypto", "obfuscated algorithm"],
+      "files": [],
+      "priority": 10
+    },
+    {
+      "id": "protocol",
+      "signals": ["protocol", "tcp", "udp", "packet", "抓包", "wireshark", "tcpdump", "state machine", "protobuf", "messagepack", "asn.1", "ber", "der", "tlv", "binary protocol", "unknown protocol", "custom protocol", "checksum"],
+      "files": [],
+      "priority": 9
+    },
+    {
+      "id": "firmware",
+      "signals": ["firmware", "固件", "binwalk", "uboot", "spl", "bootloader", "flash", "nand", "nor", "squashfs", "jffs2", "yaffs", "cramfs", "initramfs", "device tree", "dtb", "mtd", "ubi", "fit image", "u-boot"],
+      "files": [],
+      "priority": 9
+    },
+    {
+      "id": "hardware",
+      "signals": ["jtag", "swd", "uart", "spi", "i2c", "gpio", "openocd", "logic analyzer", "salae", "flashrom", "chipoff", "glitching", "fault injection", "power analysis", "em probe", "pcb", "schematics"],
+      "files": [],
+      "priority": 8
+    },
+    {
+      "id": "radio",
+      "signals": ["ble", "bluetooth", "zigbee", "lora", "nfc", "rfid", "sdr", "hackrf", "rtl-sdr", "gnuradio", "gps", "wifi", "802.11", "subghz", "fsk", "ask", "ook", "gfsk", "meshtastic", "lorawan"],
+      "files": [],
+      "priority": 8
+    },
+    {
+      "id": "methodology",
+      "signals": ["methodology", "方法论", "workflow", "工作流", "efficiency", "效率", "naming", "命名", "note taking", "笔记", "organization", "组织", "checklist", "清单", "best practice", "最佳实践"],
+      "files": [],
+      "priority": 7
+    },
+    {
+      "id": "ai-security",
+      "signals": ["ai", "llm", "chatgpt", "gpt", "claude", "prompt injection", "prompt leak", "jailbreak", "越狱", "rag", "retrieval", "vector db", "embedding", "model extraction", "adversarial", "guardrail", "safety", "alignment"],
+      "files": [],
+      "priority": 8
+    }
+  ]
+}

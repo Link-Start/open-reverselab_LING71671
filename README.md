@@ -92,6 +92,7 @@ python scripts/misc/lab_healthcheck.py
 | CTF Website | Web CTF、JS hook、HTTP payload、CVE 链 | [boards/ctf-website](boards/ctf-website/README.md) |
 | Android | APK、DEX、Frida、重打包、签名 | [boards/android](boards/android/README.md) |
 | Windows | PE、x64dbg、Ghidra、Procmon、YARA/Sigma | [boards/windows](boards/windows/README.md) |
+| General | 密码学、协议分析、固件/IoT、硬件、无线电、AI安全 | [boards/general](boards/general/README.md) |
 | Misc | MCP、skill、自动化、环境自检 | [boards/misc](boards/misc/README.md) |
 
 ## 知识库（kb/）
