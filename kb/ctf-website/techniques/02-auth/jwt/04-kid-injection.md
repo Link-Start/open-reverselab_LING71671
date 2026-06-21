@@ -258,3 +258,15 @@ AI Agent 可调用以下 MCP 工具自动完成或加速上述攻击步骤：
 |---------|---------|------|
 | KID 注入攻击 | `run_ctf_tool jwt_tool` | 使用 jwt_tool 修改 JWT kid 头 |
 | 知识检索 | `kb_router` | 按 KID 注入信号搜索相关技术 |
+
+## 工作流
+
+捕获原始 Token → 解码 header/claims → 一次验证一个签名或校验假设 → 构造最小变体 → 访问同一权限 oracle → 对比身份/权限/Flag。
+
+
+## 证据与验证闭环
+
+- 保存 baseline 与单变量 probe 的完整请求、响应状态、关键响应头和正文摘要。
+- 将“响应差异”与服务端副作用分开记录；只有权限、状态、数据或 Flag 可重复变化才算确认。
+- 从全新 session/重置状态最小化重放，记录依赖、并发参数、时间窗口及失败样本。
+- 输出统一放入 `exports/ctf-website/<case>/`，凭据只用 `REDACTED` 占位，自动检索 `flag{}`、`CTF{}`、`DASCTF{}`。

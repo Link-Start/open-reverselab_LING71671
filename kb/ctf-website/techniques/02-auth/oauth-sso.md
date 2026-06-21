@@ -234,3 +234,7 @@ AI Agent 可调用以下 MCP 工具自动完成或加速上述攻击步骤：
 | OAuth endpoint 探测 | `http_probe` | HTTP GET 探测 OAuth/SSO 端点 |
 | 知识检索 | `kb_router` | 按攻击信号搜索知识库相关技术 |
 | 知识库文件读取 | `kb_read_file` | 读取知识库技术文件内容 |
+
+## 工作流
+
+建立 baseline → 锁定一个可观察信号 → 执行单变量最小实验 → 保存证据 → 复现关键分支 → 将结果回填分析笔记。

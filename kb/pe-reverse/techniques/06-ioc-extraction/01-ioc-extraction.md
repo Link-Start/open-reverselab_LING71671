@@ -54,7 +54,7 @@ def extract_urls_from_ghidra():
 
 ```bash
 strings target.exe | grep -E '(C:|D:)\\\\|\\\\[\w]+\\\\|AppData|ProgramData|Temp'
-# C:\Users\<user>\AppData\Roaming\malware\config.dat
+# %USERPROFILE%\AppData\Roaming\malware\config.dat
 # C:\ProgramData\Microsoft\svchost_helper.exe
 # %APPDATA%\malware\
 ```
@@ -192,3 +192,10 @@ AI Agent 可调用以下 MCP 工具自动完成或加速上述攻击链步骤：
 | 从 Ghidra summary/triage/笔记自动提取 IOC | `extract_iocs_from_summary` | 从 Ghidra summary/triage/笔记自动提取 IOC → `exports/windows/iocs/` |
 | IOC 分层 | `refine_ioc_sources` | IOC 按 static_confirmed/mixed/note_only 分层 |
 | 提取 Defined Strings | `ghidra_summary_strings` | 提取 Defined Strings（URL/IP/注册表路径/mutex） |
+
+## 证据与验证闭环
+
+- 记录样本 SHA256、架构、映像基址、RVA/VA/文件偏移换算及工具版本。
+- 静态结论绑定函数、Xref、导入、字符串和反编译片段；动态结论绑定断点、寄存器、栈、内存与调用时序。
+- 原始样本只读保留，dump/patch 使用副本并记录前后哈希、原始字节、新字节和行为差异。
+- 将 x64dbg/Frida/Procmon/Ghidra 输出保存到 `exports/windows/`，从干净基线最小化复现后再下结论。

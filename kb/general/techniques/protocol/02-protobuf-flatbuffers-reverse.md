@@ -1030,3 +1030,15 @@ FlatBuffers 字节（十六进制）:
 | 协议实现深度分析 | `ghidra_headless_analyze` | Ghidra 分析 protobuf 序列化/反序列化代码 |
 | Ghidra 函数聚焦 | `ghidra_summary_call_focus` | 聚焦序列化相关函数调用链 |
 | 分析工具安装 | `python_re_tool_install` | 安装 protobuf-inspector、blackboxprotobuf 等 |
+
+## 工作流
+
+抓取多组会话 → 划分帧边界 → 推断字段与状态机 → 主动单字段变异 → 重放验证 → 生成解析器/协议说明。
+
+
+## 证据与验证闭环
+
+- 固定输入样本、SHA256、工具版本和全部参数，先保存未处理 baseline。
+- 每个假设至少绑定一个可观察量：已知明密文对、协议字段、状态转移、时间分布、偏移或重放输出。
+- 用独立脚本重放核心变换，并以断言、输出哈希或逐字段 diff 验证，不以“看起来合理”作为结论。
+- 原始抓包/样本进入 `exports/general/`，派生文件与原件分离并记录转换链。

@@ -830,3 +830,10 @@ binwalk --entropy unknown.bin
 | Ghidra 深度分析 | `ghidra_headless_analyze` | 分析实现该协议的二进制文件 |
 | Ghidra 函数聚焦 | `ghidra_summary_call_focus` | 聚焦协议处理相关函数 |
 | 分析工具安装 | `python_re_tool_install` | 安装 scapy、crcmod 等协议分析库 |
+
+## 证据与验证闭环
+
+- 固定输入样本、SHA256、工具版本和全部参数，先保存未处理 baseline。
+- 每个假设至少绑定一个可观察量：已知明密文对、协议字段、状态转移、时间分布、偏移或重放输出。
+- 用独立脚本重放核心变换，并以断言、输出哈希或逐字段 diff 验证，不以“看起来合理”作为结论。
+- 原始抓包/样本进入 `exports/general/`，派生文件与原件分离并记录转换链。

@@ -476,3 +476,10 @@ Wireshark 抓包 → 识别协议结构 (magic/opcode/length/checksum)
 | 字节 Patch 绕过校验 | `patch_bytes` | 修改网络验证逻辑 |
 | PE 偏移计算 | `pe_address_to_offset` | 定位 IAT 表地址写 hook |
 | 工具链状态 | `python_re_tool_install` | 安装 scapy/cryptography 等包 |
+
+## 证据与验证闭环
+
+- 固定输入样本、SHA256、工具版本和全部参数，先保存未处理 baseline。
+- 每个假设至少绑定一个可观察量：已知明密文对、协议字段、状态转移、时间分布、偏移或重放输出。
+- 用独立脚本重放核心变换，并以断言、输出哈希或逐字段 diff 验证，不以“看起来合理”作为结论。
+- 原始抓包/样本进入 `exports/general/`，派生文件与原件分离并记录转换链。
