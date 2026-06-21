@@ -185,3 +185,10 @@ AI Agent 可调用以下 MCP 工具自动完成或加速上述攻击链步骤：
 | PE 基础信息 | `rizin_bin_info` | PE 基础信息（entry point, image base 等） |
 | 导入表枚举 | `rizin_imports` | 导入表枚举 |
 | file offset / RVA / VA 互转 | `pe_address_to_offset` | file offset / RVA / VA 互转 |
+
+## 证据与验证闭环
+
+- 记录样本 SHA256、架构、映像基址、RVA/VA/文件偏移换算及工具版本。
+- 静态结论绑定函数、Xref、导入、字符串和反编译片段；动态结论绑定断点、寄存器、栈、内存与调用时序。
+- 原始样本只读保留，dump/patch 使用副本并记录前后哈希、原始字节、新字节和行为差异。
+- 将 x64dbg/Frida/Procmon/Ghidra 输出保存到 `exports/windows/`，从干净基线最小化复现后再下结论。

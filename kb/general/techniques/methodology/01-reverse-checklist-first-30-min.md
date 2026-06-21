@@ -38,7 +38,7 @@ ls -lh suspicious.exe
 strings suspicious.exe | head -100
 
 # 重点关注:
-# - 路径名: C:\Users\... → 开发者机器路径
+# - 路径名: %USERPROFILE% → 开发者机器路径
 # - 调试符号: .pdb 路径 → 直接暴露符号
 # - URL/IP: http://, 192.168., 10.0. → C2/更新服务器
 # - 反作弊名: EAC, BattlEye, Vanguard, BE, EOS
@@ -425,3 +425,15 @@ strings suspicious.exe | head -100
 | 15-25min 函数列表 | `ghidra_summary_functions` | 按查询过滤函数 |
 | 25-30min 知识查找 | `kb_router` | 搜索已知技术方案 |
 | 全程 | `python_re_tool_install` | 安装缺失工具链 |
+
+## 工作流
+
+建立 baseline → 锁定一个可观察信号 → 执行单变量最小实验 → 保存证据 → 复现关键分支 → 将结果回填分析笔记。
+
+
+## 证据与验证闭环
+
+- 固定输入样本、SHA256、工具版本和全部参数，先保存未处理 baseline。
+- 每个假设至少绑定一个可观察量：已知明密文对、协议字段、状态转移、时间分布、偏移或重放输出。
+- 用独立脚本重放核心变换，并以断言、输出哈希或逐字段 diff 验证，不以“看起来合理”作为结论。
+- 原始抓包/样本进入 `exports/general/`，派生文件与原件分离并记录转换链。

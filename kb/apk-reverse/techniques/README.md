@@ -1,74 +1,60 @@
 # APK 逆向技术库
 
-APK/DEX 实战逆向 Lab。每个文件 = 可复制运行的 Frida/分析代码。攻击视角，可实战。
+APK/DEX/SO 逆向技术库。覆盖静态分析、Frida 动态验证、脱壳、Patch 与重打包。
 
-## 目录 (17 篇)
+## 完整目录（8 类 / 17 篇）
 
-```
-01-dex-java/       (1)   smali-injection
-02-native/         (5)   il2cpp-offset-discovery + pointer-chain-patterns + ue4-offset-hunting + kernel-procfs-driver + virt-phys-memory
-03-manifest/       (1)   entry-point-tracing
-04-crypto/         (2)   game-encryption-patterns + rc4-custom-crypto
-05-network/        (2)   game-protocol-hook + license-verification-bypass
-06-dynamic/        (3)   memory-rw-hook + overlay-rendering-hook + touch-input-hook
-07-packer/         (2)   obfuscation-detection + self-extracting-payload
-08-patch-repack/   (1)   so-injection-repack
-```
+### 01-dex-java — DEX/Java（1）
 
-## 分类索引
+- [`01-dex-java/01-smali-injection.md`](01-dex-java/01-smali-injection.md) — Smali 代码注入与 DEX 修改
 
-### 01-dex-java — DEX/Java 反编译与注入
-- `01-smali-injection.md`: smali 语法速查, 三注入点 (Application/Activity/static), loadLibrary 注入, 打包签名流程
+### 02-native — Native/SO（5）
 
-### 02-native — Native 库逆向与偏移发现
-- `01-il2cpp-offset-discovery.md`: libil2cpp.so 分析, global-metadata.dat, 模块基址获取, 五级指针链实例
-- `02-pointer-chain-patterns.md`: process_vm_readv vs ioctl 两种读写, getZZ 递归指针解引用, 数组遍历
-- `03-ue4-offset-hunting.md`: GWorld/GObjects, Actor 链表遍历, RootComponent→坐标, 武器链
-- `04-kernel-procfs-driver.md`: 自解压 shell 注入, proc 节点创建, 用户态 ioctl 通信, 21 内核版本适配
-- `05-virt-phys-memory.md`: pagemap 虚拟地址→物理地址转换, 页表遍历, 批量免 attach 读取
+- [`02-native/01-il2cpp-offset-discovery.md`](02-native/01-il2cpp-offset-discovery.md) — Unity IL2CPP 静态逆向与偏移发现
+- [`02-native/02-pointer-chain-patterns.md`](02-native/02-pointer-chain-patterns.md) — 指针链遍历模式
+- [`02-native/03-ue4-offset-hunting.md`](02-native/03-ue4-offset-hunting.md) — UE4 引擎游戏偏移发现
+- [`02-native/04-kernel-procfs-driver.md`](02-native/04-kernel-procfs-driver.md) — Kernel Driver 注入：proc 节点读写
+- [`02-native/05-virt-phys-memory.md`](02-native/05-virt-phys-memory.md) — 虚拟地址 → 物理地址转换
 
-### 03-manifest — Manifest 与组件分析
-- `01-entry-point-tracing.md`: Application 启动链, attachBaseContext→JNI_OnLoad, 组件导出分析
+### 03-manifest — Manifest/入口（1）
 
-### 04-crypto — 加密识别与绕过
-- `01-game-encryption-patterns.md`: SSL Pinning 绕过, Cipher.init Hook 抓 Key/IV, 算法速查表, Python 离线验证
-- `02-rc4-custom-crypto.md`: RC4 KSA+PRGA 识别, Ghidra 扫描 256 循环, Frida Hook 自定义加密, API 签名伪造
+- [`03-manifest/01-entry-point-tracing.md`](03-manifest/01-entry-point-tracing.md) — 入口点追踪与组件分析
 
-### 05-network — 协议 Hook 与封包分析
-- `01-game-protocol-hook.md`: OkHttp/Retrofit Hook, native socket sendto/recvfrom Hook, Protobuf 逆向
-- `02-license-verification-bypass.md`: 微验 API 签名验证, Telegram 频道验证, curl 连通性检查, 通用绕过模板
+### 04-crypto — 加密（2）
 
-### 06-dynamic — Frida 动态分析
-- `01-memory-rw-hook.md`: process_vm_readv Hook, /proc/pid/mem 读写, ioctl 内核驱动分析
-- `02-overlay-rendering-hook.md`: ANativeWindow 创建, Vulkan/OpenGLES 渲染管线, ImGui 帧循环
-- `03-touch-input-hook.md`: InputManager.injectInputEvent, /dev/input 注入, AI vs 人工触摸模式
+- [`04-crypto/01-game-encryption-patterns.md`](04-crypto/01-game-encryption-patterns.md) — 游戏数据加解密识别与绕过
+- [`04-crypto/02-rc4-custom-crypto.md`](04-crypto/02-rc4-custom-crypto.md) — 自定义对称加密：RC4 与组合模式
 
-### 07-packer — 混淆与脱壳
-- `01-obfuscation-detection.md`: oxorany 编译期 XOR, OLLVM 控制流平坦化, UPX/魔改壳, Frida 通用 dump
-- `02-self-extracting-payload.md`: Shell 嵌入 .ko, gzip 自解压, C Header 嵌入驱动, 编译产物加密
+### 05-network — 网络协议（2）
 
-### 08-patch-repack — Patch 与重打包
-- `01-so-injection-repack.md`: apktool 解包/打包, smali 注入 loadLibrary, JNI_OnLoad 模板, 完整性校验绕过
+- [`05-network/01-game-protocol-hook.md`](05-network/01-game-protocol-hook.md) — 游戏协议 Hook 与封包分析
+- [`05-network/02-license-verification-bypass.md`](05-network/02-license-verification-bypass.md) — 在线验证系统分析与绕过
 
-## 工具映射
+### 06-dynamic — 动态插桩（3）
 
-```
-Frida                             → 动态 Hook (核心)
-Ghidra/IDA                        → Native 静态分析
-jadx                              → DEX 反编译
-apktool / uber-apk-signer         → APK 解包/打包/签名
-DiE/diec                          → 文件类型/壳识别
-Wireshark/tcpdump                 → 网络抓包
-protobuf-inspector/protoc         → Protobuf 逆向
-UE4Dumper / Il2CppInspector       → 引擎 SDK dump
-strace                            → syscall 追踪
+- [`06-dynamic/01-memory-rw-hook.md`](06-dynamic/01-memory-rw-hook.md) — 进程内存读写检测与 Hook
+- [`06-dynamic/02-overlay-rendering-hook.md`](06-dynamic/02-overlay-rendering-hook.md) — Overlay 渲染与 ImGui 检测
+- [`06-dynamic/03-touch-input-hook.md`](06-dynamic/03-touch-input-hook.md) — 触摸输入 Hook 与注入分析
+
+### 07-packer — 壳与混淆（2）
+
+- [`07-packer/01-obfuscation-detection.md`](07-packer/01-obfuscation-detection.md) — 编译期混淆检测与识别
+- [`07-packer/02-self-extracting-payload.md`](07-packer/02-self-extracting-payload.md) — 自解压 Payload 与脚本嵌入
+
+### 08-patch-repack — Patch/重打包（1）
+
+- [`08-patch-repack/01-so-injection-repack.md`](08-patch-repack/01-so-injection-repack.md) — Native SO 注入与 APK 重打包
+
+## 文档质量基线
+
+每篇正文必须包含：H1 标题、可运行示例、工作流/攻击链、证据与验证闭环、MCP 工具映射，并且本地 Markdown 链接必须可解析。
+
+```powershell
+python scripts/misc/kb_doc_audit.py
 ```
 
-## 分析链总览
+## 标准工作流
 
-```
-APK 入口追踪 → DEX smali 注入 → Native SO 逆向
-→ 引擎偏移发现 → 内存读写 Hook → 加密算法提取
-→ 协议抓包分析 → 验证系统绕过 → 混淆识别/脱壳
-→ 驱动注入分析 → 重打包验活
+```text
+APK → jadx/apktool → Java/Native 静态分析 → Frida 验证 → dump/patch → 重打包验活
 ```

@@ -110,8 +110,8 @@ ops = df['Operation'].value_counts()
 
 # 唯一文件路径
 paths = df[df['Operation']=='WriteFile']['Path'].unique()
-# C:\Users\victim\AppData\Local\Temp\tmp1234.dat
-# C:\Users\victim\AppData\Roaming\malware\config.enc
+# %USERPROFILE%\AppData\Local\Temp\tmp1234.dat
+# %USERPROFILE%\AppData\Roaming\malware\config.enc
 
 # 唯一网络目标
 ips = df[df['Operation']=='TCP Connect']['Path'].unique()
@@ -159,3 +159,10 @@ AI Agent 可调用以下 MCP 工具自动完成或加速上述攻击链步骤：
 | 停止采集 | `procmon_stop_capture` | 停止采集 |
 | 导出 CSV 分析 | `procmon_export_csv` | 导出 CSV 分析 |
 | 自动生成 Procmon 过滤方案 | `make_procmon_filters` | **根据样本导入表自动生成 Procmon 过滤方案** → `scripts/windows/procmon/` |
+
+## 证据与验证闭环
+
+- 记录样本 SHA256、架构、映像基址、RVA/VA/文件偏移换算及工具版本。
+- 静态结论绑定函数、Xref、导入、字符串和反编译片段；动态结论绑定断点、寄存器、栈、内存与调用时序。
+- 原始样本只读保留，dump/patch 使用副本并记录前后哈希、原始字节、新字节和行为差异。
+- 将 x64dbg/Frida/Procmon/Ghidra 输出保存到 `exports/windows/`，从干净基线最小化复现后再下结论。

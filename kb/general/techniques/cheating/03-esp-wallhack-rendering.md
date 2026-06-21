@@ -470,3 +470,10 @@ HRESULT __stdcall HookedPresent(IDXGISwapChain* swapChain, ...) {
 | 基础信息查 | `kb_router` | 搜索 DX11 hook / W2S 相关知识 |
 | 汇编验证 | `rizin_assemble_bytes` | 验证 JMP/VMT 替换指令 |
 | 导入表扫描 | `rizin_imports` | 确认 d3d11/dxgi/vulkan-1 导入 |
+
+## 证据与验证闭环
+
+- 固定输入样本、SHA256、工具版本和全部参数，先保存未处理 baseline。
+- 每个假设至少绑定一个可观察量：已知明密文对、协议字段、状态转移、时间分布、偏移或重放输出。
+- 用独立脚本重放核心变换，并以断言、输出哈希或逐字段 diff 验证，不以“看起来合理”作为结论。
+- 原始抓包/样本进入 `exports/general/`，派生文件与原件分离并记录转换链。

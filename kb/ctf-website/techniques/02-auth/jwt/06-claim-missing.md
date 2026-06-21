@@ -266,3 +266,7 @@ AI Agent 可调用以下 MCP 工具自动完成或加速上述攻击步骤：
 |---------|---------|------|
 | JWT 声明缺失攻击 | `run_ctf_tool jwt_tool` | 使用 jwt_tool 修改/删除 JWT 声明 |
 | Token 验证 | `http_probe` | HTTP GET 探测验证篡改 token 效果 |
+
+## 工作流
+
+捕获原始 Token → 解码 header/claims → 一次验证一个签名或校验假设 → 构造最小变体 → 访问同一权限 oracle → 对比身份/权限/Flag。

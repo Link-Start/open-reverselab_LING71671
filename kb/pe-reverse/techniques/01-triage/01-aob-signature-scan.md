@@ -163,3 +163,10 @@ AI Agent 可调用以下 MCP 工具自动完成或加速上述攻击链步骤：
 | Ghidra 分析提取特征码 | `ghidra_headless_analyze` | Ghidra 导入+自动分析，定位目标指令提取特征码 |
 | 按行为推荐函数阅读优先级 | `ghidra_summary_call_focus` | 按行为推荐函数阅读优先级 |
 | 搜索特定函数获取地址 | `ghidra_summary_functions` | 搜索特定函数，获取地址用于特征码提取 |
+
+## 证据与验证闭环
+
+- 记录样本 SHA256、架构、映像基址、RVA/VA/文件偏移换算及工具版本。
+- 静态结论绑定函数、Xref、导入、字符串和反编译片段；动态结论绑定断点、寄存器、栈、内存与调用时序。
+- 原始样本只读保留，dump/patch 使用副本并记录前后哈希、原始字节、新字节和行为差异。
+- 将 x64dbg/Frida/Procmon/Ghidra 输出保存到 `exports/windows/`，从干净基线最小化复现后再下结论。

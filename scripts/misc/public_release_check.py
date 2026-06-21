@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import py_compile
@@ -31,18 +32,42 @@ CRITICAL_FILES = [
 STUB_MARKERS = ("not yet implemented", "backend not yet configured", "TODO: Plan CVE")
 
 
-def tracked_files() -> list[Path]:
+def tracked_files(staged: bool = False) -> list[Path]:
+    command = (
+        ["git", "-C", str(ROOT), "diff", "--cached", "--name-only", "--diff-filter=ACMR"]
+        if staged
+        else ["git", "-C", str(ROOT), "ls-files", "--cached", "--others", "--exclude-standard"]
+    )
     out = subprocess.check_output(
-        ["git", "-C", str(ROOT), "ls-files", "--cached", "--others", "--exclude-standard"],
+        command,
         text=True,
         encoding="utf-8",
     )
-    return [ROOT / line for line in out.splitlines() if line]
+    return [ROOT / line for line in out.splitlines() if line and (ROOT / line).is_file()]
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--paths-from",
+        type=Path,
+        help="scan newline-delimited release-candidate paths",
+    )
+    parser.add_argument(
+        "--staged",
+        action="store_true",
+        help="scan only files staged for the release candidate",
+    )
+    args = parser.parse_args()
     failures: list[str] = []
-    files = tracked_files()
+    if args.paths_from:
+        files = [ROOT / line.strip() for line in args.paths_from.read_text(encoding="utf-8").splitlines()
+                 if line.strip() and (ROOT / line.strip()).is_file()]
+    else:
+        files = tracked_files(staged=args.staged)
+    scoped = args.staged or args.paths_from is not None
+    if scoped and not files:
+        failures.append("release candidate is empty")
     private_roots = [x for x in os.environ.get("REVERSELAB_PRIVATE_ROOTS", "").split(os.pathsep) if x]
     for path in files:
         if path.suffix.lower() not in TEXT_EXTS and path.name not in {"LICENSE", ".env.example"}:
@@ -65,15 +90,16 @@ def main() -> int:
         ):
             failures.append(f"non-empty credential assignment: {path.relative_to(ROOT)}")
 
-    for rel in CRITICAL_FILES:
-        path = ROOT / rel
-        if not path.exists():
-            failures.append(f"missing critical file: {rel}")
-            continue
-        low = path.read_text(encoding="utf-8", errors="replace").lower()
-        for marker in STUB_MARKERS:
-            if marker.lower() in low:
-                failures.append(f"stub marker in {rel}: {marker}")
+    if not scoped:
+        for rel in CRITICAL_FILES:
+            path = ROOT / rel
+            if not path.exists():
+                failures.append(f"missing critical file: {rel}")
+                continue
+            low = path.read_text(encoding="utf-8", errors="replace").lower()
+            for marker in STUB_MARKERS:
+                if marker.lower() in low:
+                    failures.append(f"stub marker in {rel}: {marker}")
 
     for path in files:
         if path.suffix == ".py":
@@ -87,26 +113,28 @@ def main() -> int:
             except Exception as exc:
                 failures.append(f"json parse: {path.relative_to(ROOT)}: {exc}")
 
-    mcp = json.loads((ROOT / ".mcp.json").read_text(encoding="utf-8"))
-    for name, entry in mcp.get("mcpServers", {}).items():
-        for arg in entry.get("args", []):
-            if isinstance(arg, str) and arg.endswith((".py", ".js")) and not (ROOT / arg).is_file():
-                failures.append(f"MCP {name} missing local entry: {arg}")
+    if not scoped:
+        mcp = json.loads((ROOT / ".mcp.json").read_text(encoding="utf-8"))
+        for name, entry in mcp.get("mcpServers", {}).items():
+            for arg in entry.get("args", []):
+                if isinstance(arg, str) and arg.endswith((".py", ".js")) and not (ROOT / arg).is_file():
+                    failures.append(f"MCP {name} missing local entry: {arg}")
 
     # This public repository intentionally avoids publishing personal commit
     # addresses. Contributors can override this locally only when they have
     # explicitly chosen to publish their address.
-    author_email = subprocess.check_output(
-        ["git", "-C", str(ROOT), "log", "-1", "--format=%ae"],
-        text=True,
-        encoding="utf-8",
-    ).strip()
-    if (
-        author_email
-        and "noreply" not in author_email.lower()
-        and os.environ.get("ALLOW_PUBLIC_COMMIT_EMAIL") != "1"
-    ):
-        failures.append("latest commit author email is not a noreply address")
+    if not scoped:
+        author_email = subprocess.check_output(
+            ["git", "-C", str(ROOT), "log", "-1", "--format=%ae"],
+            text=True,
+            encoding="utf-8",
+        ).strip()
+        if (
+            author_email
+            and "noreply" not in author_email.lower()
+            and os.environ.get("ALLOW_PUBLIC_COMMIT_EMAIL") != "1"
+        ):
+            failures.append("latest commit author email is not a noreply address")
 
     print(json.dumps({"overall": "PASS" if not failures else "FAIL", "failures": failures}, ensure_ascii=False, indent=2))
     return 0 if not failures else 1

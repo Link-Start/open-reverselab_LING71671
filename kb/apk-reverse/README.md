@@ -1,35 +1,18 @@
 # APK 逆向知识库
 
-APK/DEX 实战逆向 Lab。每个文件 = 可复制运行的 Frida/分析代码。
+APK/DEX/SO 逆向技术库，共 **8 类、17 篇正文**。
 
-## 结构
+## 入口
 
-```
-techniques/ (8 分类)
-├── 01-dex-java/       DEX/Java 反编译与静态分析
-├── 02-native/         Native (so) 库分析
-├── 03-manifest/       Manifest 与组件分析
-├── 04-crypto/         加密与解密
-├── 05-network/        网络通信分析
-├── 06-dynamic/        Frida 动态插桩
-├── 07-packer/         壳与混淆
-└── 08-patch-repack/   Patch 与重打包
-```
+- [完整技术索引](techniques/README.md)
+- Board：`boards/android/README.md`
+- 模板：`templates/notes/android-apk-analysis.md`
 
-## 流程
+## 分析链
 
-```
-APK → 解包(apktool) → 静态(jadx) → 动态(Frida) → Patch → 重打包签名 → 验证
+```text
+APK 哈希/Manifest → jadx/apktool 静态分析 → Java/Native 调用链
+→ Frida 动态验证 → crypto/network/dex dump → Patch/重打包 → 安装验活
 ```
 
-## 工具映射
-
-参照 `techniques/README.md` 底部工具映射表。
-
-## 原则
-
-- 伪代码直接跑
-- 先静态后动态
-- 一次一个 hook 点
-- 30 min 无果换面
-- 证据落盘
+每发现加密、混淆、壳、native 或网络信号，立即以 `board=apk-reverse` 调用 `kb_router`。
