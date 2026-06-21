@@ -226,3 +226,10 @@ AI Agent 可调用以下 MCP 工具自动完成或加速上述攻击链步骤：
 | 定位目标函数 | `ghidra_headless_analyze` | 定位目标函数 |
 | 查看函数参数和调用约定 | `ghidra_summary_function_detail` | 查看函数参数和调用约定 |
 | 生成 hook stub 机器码 | `rizin_assemble_bytes` | 生成 hook stub 机器码 |
+
+## 证据与验证闭环
+
+- 记录样本 SHA256、架构、映像基址、RVA/VA/文件偏移换算及工具版本。
+- 静态结论绑定函数、Xref、导入、字符串和反编译片段；动态结论绑定断点、寄存器、栈、内存与调用时序。
+- 原始样本只读保留，dump/patch 使用副本并记录前后哈希、原始字节、新字节和行为差异。
+- 将 x64dbg/Frida/Procmon/Ghidra 输出保存到 `exports/windows/`，从干净基线最小化复现后再下结论。

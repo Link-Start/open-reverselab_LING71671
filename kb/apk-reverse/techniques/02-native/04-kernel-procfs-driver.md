@@ -140,3 +140,10 @@ AI Agent 可调用以下 MCP 工具自动完成或加速上述攻击链步骤：
 | 确保 ADB 连接 | `android_adb_connect` | 确保 ADB 连接 |
 | 确认设备 root 状态 | `android_device_info` | 确认设备 root 状态 |
 | 推送 .ko 文件到设备 | `android_push_file` | 推送 .ko 文件到设备 |
+
+## 证据与验证闭环
+
+- 记录 APK/SO 的 SHA256、包名、版本、ABI、设备/Android/Frida 版本及原始样本路径。
+- 静态结论必须绑定类名、方法签名、RVA/文件偏移、字符串或 Xref；动态结论绑定 hook 点、参数、返回值和时间戳。
+- 在未修改样本与实验副本上分别复现，保存 Frida 日志、dump 哈希和重放脚本到 `exports/android/`。
+- Patch/重打包必须记录原始字节、修改字节、签名方式和安装启动结果，不能以“构建成功”代替行为验证。

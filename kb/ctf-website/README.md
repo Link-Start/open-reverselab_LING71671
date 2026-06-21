@@ -1,50 +1,23 @@
 # Web CTF 知识库
 
-AI 实战 Lab。每个文件 = 可复制运行的攻击代码。每个文件有攻击链。
+Web CTF / 授权网站安全技术库，共 **23 类、97 篇正文**。
 
-## 结构
+## 入口
 
-```
-techniques/ (33 files)
-├── 01-recon/ (2)
-├── 02-auth/  (13: jwt×11 + oauth + host-header)
-├── 03-injection/ (5: sqli + ssti + pp + graphql + hpp-crlf)
-├── 04-ssrf/  (2: ssrf + open-redirect)
-├── 05-deserialization/ (1)
-├── 06-file-attacks/ (1)
-├── 07-client/ (4: xss + js + ws + cors-csrf)
-├── 08-infra/ (1)
-└── 09-cve/   (3)
-```
-
-## 核心文件
-
-| 文件 | 说明 |
-|------|------|
-| `techniques/attack-network.md` | **攻击网** — 全网图(Mermaid)、6条典型路径、枢纽节点、决策驱动 |
-| `techniques/README.md` | 技术索引 — 所有文件清单、工具映射 |
-| `checklists/web-ctf-first-30-min.md` | 前30分钟行动计划 |
+- [完整技术索引](techniques/README.md)
+- [Web 攻击网](techniques/attack-network.md)
+- [前 30 分钟 Checklist](checklists/web-ctf-first-30-min.md)
+- [支付 CTF Playbook](checklists/payment-ctf-playbook.md)
 
 ## 流程
 
+```text
+Recon → Fingerprint → kb_router → 多路径最小探针 → 服务端副作用/Flag 验证 → 证据落盘
 ```
-Recon → Fingerprint → 查攻击网 → 选入口 → 多条路径并行 → Flag
+
+```powershell
+python scripts/ctf-website/kb_router.py "<发现的信号>"
+python scripts/misc/kb_doc_audit.py
 ```
-攻击网 > 单条攻击链: 网状思考，多线并进，选最短路径。
 
-## 工具映射
-
-参照 `techniques/README.md` 底部工具映射表。
-
-## 原则
-
-- 伪代码直接跑
-- 先 min probe，再深入
-- 一次一个变量
-- 30 min 无果换面
-- 证据落盘
-
-## 支付类题目
-
-- Technique: ./kb\ctf-website\techniques\12-payment\payment-logic.md`n- 关键词：订单、金额、支付状态、回调签名、幂等并发、订单 IDOR、优惠/余额/退款/权益错配。
-
+技术文档要求可运行示例、工作流、证据闭环和 MCP 工具映射；真实 case、凭据和日志不得迁入公共知识库。

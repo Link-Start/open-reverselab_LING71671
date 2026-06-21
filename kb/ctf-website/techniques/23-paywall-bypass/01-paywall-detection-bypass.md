@@ -203,10 +203,25 @@ function getCookieDomain(hostname) {
 
 ### 关联技术
 
-- [[02-http-header-manipulation]] — UA/Referer/Cookie 伪装
-- [[03-network-rule-blocking]] — declarativeNetRequest 脚本拦截
-- [[04-content-extraction]] — JSON-LD/Next.js/archive.is 提取
-- [[05-dom-css-manipulation]] — DOM/CSS 操作与 storage
-- [[../07-client/js-runtime]] — JS Hook 与运行时修改
-- [[../01-recon/version-fingerprinting]] — CMS 平台指纹
-- [[../01-recon/cloudflare-bypass]] — CDN 源站绕过
+- [02-http-header-manipulation](02-http-header-manipulation.md) — UA/Referer/Cookie 伪装
+- [03-network-rule-blocking](03-network-rule-blocking.md) — declarativeNetRequest 脚本拦截
+- [04-content-extraction](04-content-extraction.md) — JSON-LD/Next.js/archive.is 提取
+- [05-dom-css-manipulation](05-dom-css-manipulation.md) — DOM/CSS 操作与 storage
+- [js-runtime](../07-client/js-runtime.md) — JS Hook 与运行时修改
+- [version-fingerprinting](../01-recon/version-fingerprinting.md) — CMS 平台指纹
+- [cloudflare-bypass](../01-recon/cloudflare-bypass.md) — CDN 源站绕过
+
+## 证据与验证闭环
+
+- 保存 baseline 与单变量 probe 的完整请求、响应状态、关键响应头和正文摘要。
+- 将“页面可见变化”与服务端内容授权分开记录；只有正文差分、状态变化或 Flag 可重复出现才算确认。
+- 从全新浏览器 profile/session 最小化重放，记录 UA、Cookie、Storage、脚本拦截规则和执行时序。
+- 输出统一放入 `exports/ctf-website/<case>/`，凭据使用 `REDACTED` 占位并自动检索常见 Flag 格式。
+
+## MCP 工具映射
+
+| 步骤 | MCP 工具 | 说明 |
+|---|---|---|
+| 真实浏览器运行时分析 | `jshook` | 观察 DOM、脚本、Storage、请求与 paywall 状态 |
+| HTTP 差分 | `http_probe` | 比较匿名、登录、UA/Referer/Cookie 变体 |
+| 知识路由 | `kb_router` | 按 paywall 平台与提取信号选择技术文件 |

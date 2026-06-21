@@ -554,16 +554,31 @@ if (matchUrlDomain([
    → 适用: paywall JS 有不确定的执行时序
 
 6. 如果以上都不够
-   → 回退到 [[02-http-header-manipulation]] (UA 伪装)
-   → 回退到 [[03-network-rule-blocking]] (脚本拦截)
-   → 回退到 [[04-content-extraction]] (JSON 提取)
+   → 回退到 [02-http-header-manipulation](02-http-header-manipulation.md) (UA 伪装)
+   → 回退到 [03-network-rule-blocking](03-network-rule-blocking.md) (脚本拦截)
+   → 回退到 [04-content-extraction](04-content-extraction.md) (JSON 提取)
 ```
 
 ### 关联技术
 
-- [[01-paywall-detection-bypass]] — Paywall 类型识别
-- [[02-http-header-manipulation]] — HTTP 头伪装
-- [[03-network-rule-blocking]] — 脚本拦截
-- [[04-content-extraction]] — 内容提取
-- [[../07-client/admin-bot-xss]] — DOM Clobbering / MutationObserver 通用技巧
-- [[../07-client/js-runtime]] — JS 运行时 Hook
+- [01-paywall-detection-bypass](01-paywall-detection-bypass.md) — Paywall 类型识别
+- [02-http-header-manipulation](02-http-header-manipulation.md) — HTTP 头伪装
+- [03-network-rule-blocking](03-network-rule-blocking.md) — 脚本拦截
+- [04-content-extraction](04-content-extraction.md) — 内容提取
+- [admin-bot-xss](../07-client/admin-bot-xss.md) — DOM Clobbering / MutationObserver 通用技巧
+- [js-runtime](../07-client/js-runtime.md) — JS 运行时 Hook
+
+## 证据与验证闭环
+
+- 保存 baseline 与单变量 probe 的完整请求、响应状态、关键响应头和正文摘要。
+- 将“页面可见变化”与服务端内容授权分开记录；只有正文差分、状态变化或 Flag 可重复出现才算确认。
+- 从全新浏览器 profile/session 最小化重放，记录 UA、Cookie、Storage、脚本拦截规则和执行时序。
+- 输出统一放入 `exports/ctf-website/<case>/`，凭据使用 `REDACTED` 占位并自动检索常见 Flag 格式。
+
+## MCP 工具映射
+
+| 步骤 | MCP 工具 | 说明 |
+|---|---|---|
+| 真实浏览器运行时分析 | `jshook` | 观察 DOM、脚本、Storage、请求与 paywall 状态 |
+| HTTP 差分 | `http_probe` | 比较匿名、登录、UA/Referer/Cookie 变体 |
+| 知识路由 | `kb_router` | 按 paywall 平台与提取信号选择技术文件 |

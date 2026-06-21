@@ -12,7 +12,7 @@
 
 | 信号类型 | Board | KB 分类数/文件数 | MCP 工具族 |
 |---------|-------|-----------------|-----------|
-| HTTP/Web/API/CVE/CAPTCHA | `ctf-website` | 22/90 | `http_probe` `run_ctf_tool` `kb_router` |
+| HTTP/Web/API/CVE/CAPTCHA | `ctf-website` | 23/97 | `http_probe` `run_ctf_tool` `kb_router` |
 | APK/DEX/SO/Frida/Java | `apk-reverse` | 8/17 | `android_app_baseline` `android_crypto_unpack_recipe` `android_frida_*` |
 | PE/x64/x86/malware/driver | `pe-reverse` | 8/18 | `triage_pe` `ghidra_headless_analyze` `make_x64dbg_breakpoint_script` `sample_full_workup` |
 | Crypto/Protocol/Cheat/IoT/Radio | `general` | 4+4/12 | `die_scan` `ghidra_*` `rizin_*` `python_re_tool_*` |
@@ -21,7 +21,7 @@
 
 ```
 kb/
-├── ctf-website/techniques/   22 类 90 篇 — Web 攻击全表面
+├── ctf-website/techniques/   23 类 97 篇 — Web 攻击全表面
 ├── apk-reverse/techniques/    8 类 17 篇 — APK/DEX 逆向
 ├── pe-reverse/techniques/     8 类 18 篇 — PE 二进制分析
 └── general/techniques/        4+4 类 12 篇 — 密码学/协议/作弊/方法论
