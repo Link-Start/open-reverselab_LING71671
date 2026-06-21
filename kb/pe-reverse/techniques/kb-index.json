@@ -63,6 +63,12 @@
       "signals": ["patch", "nop", "jmp", "virtualprotect", "byte patch", "modify", "hxd", "memory patch", "code patch"],
       "files": ["08-patch/01-code-patching.md"],
       "priority": 8
+    },
+    {
+      "id": "av-evasion",
+      "signals": ["免杀", "av evasion", "antivirus bypass", "shellcode", "loader", "cobalt strike", "meterpreter", "veh", "syscall bypass", "anti sandbox", "杀软绕过", "payload", "msfvenom", "shellcode encrypt", "shellcode obfuscate", "花指令", "junk code", "uuid shellcode", "mac shellcode", "反沙箱", "免杀loader", "defender bypass", "火绒绕过", "360免杀", "卡巴斯基绕过", "edr bypass", "内存保护", "进程注入免杀"],
+      "files": ["09-av-evasion/01-ai-powered-evasion.md"],
+      "priority": 10
     }
   ]
 }

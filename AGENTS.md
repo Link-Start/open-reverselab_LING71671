@@ -39,25 +39,40 @@
 
 分析 Android APK/DEX 时，**必须先查知识库再动手**：
 
-1. **按信号查技术文件** — 每发现一个信号（加密、混淆、壳、native、网络协议...）立即调用 MCP `kb_router` 搜索，board 指定 `apk-reverse`：
+1. **读攻击网** — `kb/apk-reverse/techniques/attack-network.md`，了解 APK 逆向的全部分析路径和交叉连接
+2. **按信号查技术文件** — 每发现一个信号（加密、混淆、壳、native、网络协议...）立即调用 MCP `kb_router` 搜索，board 指定 `apk-reverse`：
    ```
    MCP: kb_router(query="加密", board="apk-reverse")
    ```
-2. **阅读技术文件** — 调用 MCP `kb_read_file` 读取匹配的技术文件，每篇含可运行 Frida 代码
-3. **看 MCP 工具映射** — 技术文件末尾的"## MCP 工具映射"表标注了可自动化的步骤；**优先用 MCP 工具**（如 `android_crypto_unpack_recipe`、`android_http_observation_recipe`、`android_app_baseline`）而非从头写 Frida 脚本
-4. **多路径推进** — APK 分析通常涉及多个层面（Java层/Native层/网络层/文件系统），不要只看一个维度
+3. **阅读技术文件** — 调用 MCP `kb_read_file` 读取匹配的技术文件，每篇含可运行 Frida 代码
+4. **看 MCP 工具映射** — 技术文件末尾的"## MCP 工具映射"表标注了可自动化的步骤；**优先用 MCP 工具**（如 `android_crypto_unpack_recipe`、`android_http_observation_recipe`、`android_app_baseline`）而非从头写 Frida 脚本
+5. **按攻击网多路径推进** — APK 分析通常涉及多个层面（Java层/Native层/网络层/文件系统），不要只看一个维度
 
 ## PE/Windows 知识库
 
 分析 Windows PE/二进制时，**必须先查知识库再动手**：
 
-1. **按信号查技术文件** — 每发现一个信号（壳、反调试、加密、注入、AOB...）立即调用 MCP `kb_router` 搜索，board 指定 `pe-reverse`：
+1. **读攻击网** — `kb/pe-reverse/techniques/attack-network.md`，了解 PE 分析的全部路径（triage→static→dynamic→crypto→IOC→YARA→patch→免杀）
+2. **按信号查技术文件** — 每发现一个信号（壳、反调试、加密、注入、AOB...）立即调用 MCP `kb_router` 搜索，board 指定 `pe-reverse`：
    ```
    MCP: kb_router(query="脱壳", board="pe-reverse")
    ```
-2. **阅读技术文件** — 调用 MCP `kb_read_file` 读取匹配的技术文件，每篇含可运行 C++/Frida 代码
-3. **看 MCP 工具映射** — 技术文件末尾的"## MCP 工具映射"表标注了可自动化的步骤；**优先用 MCP 工具**（如 `triage_pe`、`ghidra_headless_analyze`、`make_pe_crypto_unpack_plan`、`sample_full_workup`）而非手动操作
-4. **按分析链推进** — 初筛(triage) → 静态(Ghidra) → 动态(x64dbg/Frida) → IOC → YARA/Sigma，参照 KB 技术文件中的攻击链
+3. **阅读技术文件** — 调用 MCP `kb_read_file` 读取匹配的技术文件，每篇含可运行 C++/Frida 代码
+4. **看 MCP 工具映射** — 技术文件末尾的"## MCP 工具映射"表标注了可自动化的步骤；**优先用 MCP 工具**（如 `triage_pe`、`ghidra_headless_analyze`、`make_pe_crypto_unpack_plan`、`sample_full_workup`）而非手动操作
+5. **按攻击网多路径推进** — 初筛(triage) → 静态(Ghidra) → 动态(x64dbg/Frida) → IOC → YARA/Sigma → Patch → 免杀，参照攻击网选择路径
+
+## General 通用知识库
+
+分析密码算法/协议/游戏作弊/固件/硬件/无线电/AI 安全时，**必须先查知识库再动手**：
+
+1. **读攻击网** — `kb/general/techniques/attack-network.md`，了解跨领域分析的全部路径和交叉连接
+2. **按信号查技术文件** — 每发现一个信号（加密算法、协议格式、PRNG、反作弊...）立即调用 MCP `kb_router` 搜索，board 指定 `general`：
+   ```
+   MCP: kb_router(query="PRNG", board="general")
+   ```
+3. **阅读技术文件** — 调用 MCP `kb_read_file` 读取匹配的技术文件
+4. **看 MCP 工具映射** — 优先用 MCP 工具（`die_scan`、`solve_crypto_from_evidence`、`make_crypto_replay_scaffold`）而非手动操作
+5. **按攻击网多路径推进** — crypto→protocol→cheating→firmware→hardware→radio→ai-security，领域交叉是常态
 
 ## 目录约定
 
