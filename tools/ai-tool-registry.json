@@ -507,6 +507,64 @@
       },
       "ai_callable": false,
       "notes": "GUI reverse engineering frontend; automatic AI checks only verify file exists."
+    },
+    {
+      "id": "misc.proxy_pool",
+      "board": "misc",
+      "name": "Proxy Pool",
+      "launch_mode": "cli",
+      "command": "python",
+      "args": [
+        "tools/proxy_pool/proxy_pool.py",
+        "stats"
+      ],
+      "safe_probe": {
+        "type": "command",
+        "timeout_ms": 15000
+      },
+      "ai_callable": true,
+      "notes": "代理池管理: fetch, validate, rotate, stats. 为扫描工具提供代理轮换."
+    },
+    {
+      "id": "misc.proxy_pipeline",
+      "board": "misc",
+      "name": "Proxy Pipeline",
+      "launch_mode": "cli",
+      "command": "python",
+      "args": [
+        "tools/proxy-pipeline/pipeline.py",
+        "test",
+        "httpbin.org",
+        "--port",
+        "443"
+      ],
+      "safe_probe": {
+        "type": "command",
+        "timeout_ms": 15000
+      },
+      "ai_callable": true,
+      "notes": "代理管道: forward/chain/route/test. 串联多级代理或路由流量到代理池."
+    },
+    {
+      "id": "misc.proxy_test",
+      "board": "misc",
+      "name": "Proxy Quick Test",
+      "launch_mode": "cli",
+      "command": "python",
+      "args": [
+        "tools/proxy_pool/test_proxy.py",
+        "--test-url",
+        "https://httpbin.org/ip",
+        "--json-only",
+        "socks5://127.0.0.1:1080"
+      ],
+      "safe_probe": {
+        "type": "command",
+        "timeout_ms": 20000,
+        "allow_nonzero": true
+      },
+      "ai_callable": true,
+      "notes": "单代理快速连通性/匿名性测试."
     }
   ]
 }
