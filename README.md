@@ -78,6 +78,10 @@ CLAUDE.md → AGENTS.md → AI-USAGE.md → boards/<board>/AI-USAGE.md
 
 搭配 [codex-session-patcher](https://github.com/ryfineZ/codex-session-patcher) 一键配置项目级 `.codex/` 环境与 MCP 服务器。
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=LING71671/open-reverselab&type=Date)](https://star-history.com/#LING71671/open-reverselab&Date)
+
 ## 许可
 
 GPL-3.0-only. 详见 [LICENSE](LICENSE)。
