@@ -37,19 +37,19 @@ def main():
     # 注入 shellcode
     with open(encrypted_file, 'r') as f:
         sc = f.read()
-    template = template.replace('// $$SHELLCODE_PLACEHOLDER$$', sc)
+    template = template.replace('// SHELLCODE_PLACEHOLDER', sc)
 
     # 注入密钥
     if key_file:
         with open(key_file, 'r') as f:
             key = f.read()
-        template = template.replace('// $$KEY_PLACEHOLDER$$', key)
+        template = template.replace('// KEY_PLACEHOLDER', key)
 
     # 注入混淆数据
     if obfuscated_file:
         with open(obfuscated_file, 'r') as f:
             obf = f.read()
-        template = template.replace('// $$UUID_PLACEHOLDER$$', obf)
+        template = template.replace('// UUID_PLACEHOLDER', obf)
 
     with open(out_file, 'w') as f:
         f.write(template)
