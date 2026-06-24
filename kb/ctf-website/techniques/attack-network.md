@@ -38,6 +38,8 @@ graph TD
     PAYWALL_BLOCK["Script Block<br/>23-paywall"]
     PAYWALL_JSONLD["JSON-LD Extract<br/>23-paywall"]
     PAYWALL_ARCHIVE["Archive Proxy<br/>23-paywall"]
+    LOSTUPDATE["Lost Update<br/>12-payment"]
+    FOFA["FOFA Hunt<br/>01-recon"]
 
     %% === Layer 1: Credential / Info Leak ===
     CRED["Credential Leak<br/>session/token/key"]
@@ -87,6 +89,19 @@ graph TD
     REDOS -->|auth bypass| ADMIN
     REDOS -->|WAF bypass| BE
     WEBSOCKET -->|CSWSH| CRED
+
+    %% --- Edges: FOFA → Everything ---
+    FOFA -->|exposed DB port| DB
+    FOFA -->|config file leak| SRC
+    FOFA -->|weak password asset| CRED
+    FOFA -->|exposed cloud svc| IAM
+    FOFA -->|backup file| SRC
+    FOFA -->|org/ASN recon| SRC
+    FOFA -->|admin panel discover| ADMIN
+    FOFA -->|app version fingerprint| DESER
+    FOFA -->|app version fingerprint| SQLI
+    FOFA -->|app version fingerprint| BE
+    FOFA -->|exposed service port| SSRF
 
     %% --- Edges: Payment → Direct Flag ---
     PAYBY -->|zero amount| FLAG
@@ -161,6 +176,11 @@ graph TD
     PAYWALL_BLOCK -->|SDK block| FLAG
     PAYWALL_JSONLD -->|articleBody| FLAG
     PAYWALL_ARCHIVE -->|cached content| FLAG
+
+    %% --- Edges: Lost Update → Flag/Credential ---
+    LOSTUPDATE -->|shield+mint| FLAG
+    LOSTUPDATE -->|version conflict| PAYBY
+    LOSTUPDATE -->|TOCTOU pattern| CALLBACK
 
     %% --- Cross-category edges ---
     XSS -.->|admin bot| SSRF
@@ -240,6 +260,22 @@ Paywall 识别 → 指纹 CMS/Paywall 服务
   └─ → DOM/CSS 操作 → 移除 overlay + 恢复正文 → Flag
 ```
 
+### 路径 8: FOFA 资产测绘 → Flag（Recon 是所有攻击的起点）
+```
+FOFA 资产测绘 → org/domain/ASN 范围锁定
+  │
+  ├─ → exposed DB port → weak password → SELECT flag → Flag (直连)
+  ├─ → exposed Redis → 写 SSH key → RCE → Flag
+  ├─ → exposed .env → DB_PASSWORD → mysql → Flag
+  │
+  ├─ → admin panel discover → default password → ADMIN → upload webshell → RCE → Flag
+  ├─ → app version fingerprint → 已知 CVE → DESER/SSRF/SQLI → ... → Flag
+  ├─ → app version fingerprint → 直接 RCE (BE) → Flag
+  │
+  ├─ → org/ASN recon → 同类资产反查 → 扩大入口 → 循环上述
+  └─ → CSV 批量导出 → 弱口令工具 → 命中 → 手动复测 → 提交漏洞
+```
+
 ## 攻击网中的关键枢纽节点
 
 这些节点被最多其他节点依赖，是攻击网中的 choke point：
@@ -251,6 +287,7 @@ Paywall 识别 → 指纹 CMS/Paywall 服务
 | `Backend RCE` | 11 | 1 | 最终执行的关键节点 |
 | `Source Leak` | 7 | 3 | 配置/源码泄露 → DB密码/密钥 |
 | `SSRF` | 5 | 4 | 从外网打到内网的核心桥梁 |
+| `FOFA Hunt` | 0 | 9 | 资产测绘是所有攻击的起点：暴露服务→DB/IAM，指纹→注入/反序列化/RCE，配置→凭证，面板→直接提权 |
 
 ## 网中没画但存在的边 (隐性连接)
 
@@ -278,12 +315,22 @@ Paywall → UA spoof → Recon → Fingerprint → CVE
 
 Paywall → JSON-LD → info leak → API key → Admin
   (提取完整JSON → 发现内部endpoint → 密钥泄露 → 提权)
+
+FOFA → org 资产测绘 → 批量导出 → TScanPlus 弱口令 → DB → Flag
+  (FOFA org 字段锁定目标网络段 → CSV 导出 → 批量爆破 → 数据库直连 → flag)
+
+FOFA → exposed .env → DB_PASSWORD → database → SELECT flag
+  (被动搜索 .env 泄露 → 提取数据库凭证 → 直连 → flag)
+
+FOFA → cert 反查 → 同类资产拓展 → 扩大攻击面
+  (SSL 证书关联 → 发现同 org 其他服务 → 多端口扩大入口)
 ```
 
 ## 攻击网驱动决策
 
 ```
 拿到 target 后:
+0. FOFA 资产测绘 → org/domain/ASN/cert 全量收敛 → 暴露了哪些端口/服务/版本?
 1. 指纹 → 确认技术栈
 2. 查攻击网 → 哪些 Entry 适合这个技术栈?
 3. 对每个可用 Entry → 看它指向哪些 Credential/Info 节点
@@ -293,4 +340,6 @@ Paywall → JSON-LD → info leak → API key → Admin
 不要线性思考 "A→B→C→Flag"
 而要网状思考 "从 A 可以到 B C D，B 可以到 E F，C 可以到 G H..."
 选最短路径，同时备份备选路径。
+
+注意: 资产测绘 FOFA 是所有攻击的起点 — 没有资产清单就没有攻击面。
 ```
