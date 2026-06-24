@@ -10,7 +10,7 @@
 | [03-nosql-injection.md](03-nosql-injection.md) | NoSQL：MongoDB/Redis/ES/CouchDB | 进阶 |
 | [04-config-exposure.md](04-config-exposure.md) | 配置泄露：.env/config.php/默认凭证 | 基础 |
 | [05-backup-log-leak.md](05-backup-log-leak.md) | 备份/日志/安装残留暴露 | 基础 |
-| [06-card-platform.md](06-card-platform.md) | 发卡平台实战：CDK泄露+IDOR+XSS | 综合 |
+| [06-card-platform.md](06-card-platform.md) | 数字商品库存泄露模式（抽象） | 参考 |
 
 ## 快速入口
 
