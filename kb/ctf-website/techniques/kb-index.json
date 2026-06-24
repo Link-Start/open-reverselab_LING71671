@@ -1395,7 +1395,14 @@
         "CDK",
         "卡盟",
         "die缺失",
-        "IDOR"
+        "IDOR",
+        "数据清洗",
+        "数据去噪",
+        "特征提取",
+        "前缀聚类",
+        "锚点映射",
+        "置信度分级",
+        "格式分类"
       ],
       "files": [
         "24-database/00-overview.md",
@@ -1405,7 +1412,8 @@
         "24-database/04-config-exposure.md",
         "24-database/05-backup-log-leak.md",
         "24-database/06-card-platform.md",
-        "24-database/README.md"
+        "24-database/README.md",
+        "24-database/07-data-cleaning.md"
       ],
       "priority": 10
     }

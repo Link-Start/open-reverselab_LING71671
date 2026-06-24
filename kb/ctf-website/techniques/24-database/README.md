@@ -11,6 +11,7 @@
 | [04-config-exposure.md](04-config-exposure.md) | 配置泄露：.env/config.php/默认凭证 | 基础 |
 | [05-backup-log-leak.md](05-backup-log-leak.md) | 备份/日志/安装残留暴露 | 基础 |
 | [06-card-platform.md](06-card-platform.md) | 数字商品库存泄露模式（抽象） | 参考 |
+| [07-data-cleaning.md](07-data-cleaning.md) | 泄露数据清洗方法论 | 方法论 |
 
 ## 快速入口
 
