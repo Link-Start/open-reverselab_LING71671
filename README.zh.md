@@ -2,7 +2,6 @@
 
 开源逆向工程实验环境 —— 197 篇知识库文章，100+ MCP 自动化工具，覆盖 CTF 渗透测试 / APK 逆向 / PE 二进制分析 / 加密协议破解 / 游戏作弊分析。Agent 原生设计，目录即约定。
 <img width="1194" height="430" alt="image" src="https://github.com/user-attachments/assets/65085420-66bd-4c9a-b02d-8b4a55005d03" />
-由于场景原因，目前有让几乎所有AI都会越狱的bug，不准备修😉
 
 > [English version](README.md)
 
